@@ -11,9 +11,10 @@ done
 if [ ! -d $dbs ]
 then
   mkdir $dbs
-  echo "The folder for databases is created successfully"
+  echo -e "\e[42mThe folder for databases is created successfully\e[0m"
 fi
 
+COLUMNS=0
 select choice in "Create Database" "List Database" "Connect To Database" "Drop Database" "Exit"
 do
 case $REPLY in
@@ -27,14 +28,9 @@ if [[ $answer = "" ]]; then
 	
 	elif [[ $answer =~ [/.:\|\-] ]]; then
 		echo -e "\e[41mYou can't enter these characters => . / : - | \e[0m"
-		echo "press any key"
-		read
-	
 		
 	elif [[ -e ./dbs/$answer ]]; then
 		echo  -e "\e[41mthis database name is already used\e[0m"
-		echo press any key
-		read
 	
 	elif [[ $answer =~ ^[a-zA-Z] ]]; then
 		mkdir ./dbs/$answer
@@ -43,8 +39,7 @@ if [[ $answer = "" ]]; then
 	
 	else
 		echo -e "\e[41mDatabase name can't start with numbers or special characters\e[0m"
-		echo press any key
-		read
+		
 	fi
 
 
@@ -99,7 +94,7 @@ if [[ $answer = "" ]]; then
       fi
      if [ -d ./dbs/$dbname ]
      then
-          gnome-terminal -- bash -c "./secondarymenu.sh $dbname; bash"
+          gnome-terminal -- bash -c "./secondarymenu.sh $dbname; bash" > /dev/null
 
 	fi
 ;;
@@ -107,14 +102,9 @@ if [[ $answer = "" ]]; then
        read name
 if [[ $name = "" ]]; then
 		echo -e "\e[41mInvalid entry, please enter a correct name\e[0m"
-		echo "press any key"
-		read
 	
 	elif [[ $name =~ [/.:\&\*\?\!\@\#\$\%\^\1\2\3\4\5\6\7\8\9\|\-] ]]; then
 		echo -e "\e[41mDatabase name can't start with numbers or special characters\e[0m"
-		echo "press any key"
-		read
-
 	
 	elif [[ -e ./dbs/$name ]]; then
                 rm -r ./dbs/$name

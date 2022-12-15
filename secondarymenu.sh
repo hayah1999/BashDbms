@@ -2,8 +2,8 @@
 
  cd ./dbs/$1
   pwd
-
-select choice in " Create Table" " List Tables" " Drop Table" " Insert into Table" " Select From Table" " Delete From Table" " Update Table" " Exit"
+COLUMNS=0
+select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "Exit"
 do
 	case $REPLY in 
 		1) echo Here you create table:
