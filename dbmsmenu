@@ -21,18 +21,18 @@ case $REPLY in
 1)echo "Enter your database name"
        read answer
  
-if [[ $answer = " " ]]; then
-		echo -e "\e[41minvalid entry, please enter a correct name\e[0m"
+if [[ $answer = *" "* ]]; then
+		echo -e "\e[41mThe name can't contain spaces\e[0m"
 
 	elif  [[ ^$answer =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]; then
 		echo -e "\e[41mYou can't enter these characters \e[0m"
 		
 	elif [[ -e ./dbs/$answer ]]; then
-		echo  -e "\e[41mthis database name is already used\e[0m"
+		echo  -e "\e[41mThis database name is already used\e[0m"
 	
 	elif  [[ $answer =~ ^[a-zA-Z] ]]; then
 		mkdir ./dbs/$answer
-      echo -e "\e[42mdatabase created sucessfully \e[0m"
+      echo -e "\e[42mDatabase created sucessfully \e[0m"
 	
 	
 	else
@@ -44,43 +44,8 @@ if [[ $answer = " " ]]; then
 ;;
 2)  echo The databases are:
                    cd ./dbs
-                    function PP () {
-                       local longest=0
-                       local string_array=("${@}")
-                       for i in "${string_array[@]}"; do
-                       if [[ "${#i}" -gt "${longest}" ]]; then
-                       local longest=${#i}
-                       local longest_line="${i}"
-                       fi
-                       done
-
-                       local edge=$(echo "$longest_line" | sed 's/./#/g' | sed 's/^#/###/' | sed 's/#$/###/')
-                       local middle_edge=$(echo "$longest_line" | sed 's/./\ /g' | sed 's/^\ /#\  /' | sed 's/\ $/\ \ #/')
-
-                       echo -e "\n${edge}"
-                       echo "${middle_edge}"
-
-                       for i in "${string_array[@]}"; do
-                       local length_i=${#i}
-                       local length_ll="${#longest_line}"
-                       if [[ "${length_i}" -lt "${length_ll}"  ]]; then
-                       printf "# "
-                       local remaining_spaces=$((length_ll-length_l))
-                       printf "${i}"
-                       while [[ ${remaining_spaces} -gt ${#i} ]]; do
-                       printf " "
-                       local remaining_spaces=$((remaining_spaces-1))
-                       done
-                       printf " #\n"
-                       else
-                       echo "# ${i} #"
-                       fi
-                       done
-
-                       echo "${middle_edge}"
-                       echo -e "${edge}\n"
-                      }
-                      PP `ls`
+                     ./../borderlist.sh
+                  
                       cd ..
 			;;
 3) read -e -p "Enter the database you want to connect with > " dbname
@@ -97,7 +62,7 @@ if [[ $answer = " " ]]; then
 ;;
 4) echo "Enter database name you want to delete"
        read name
-if [[ $name = "" ]]; then
+if [[ $name = *" "* ]]; then
 		echo -e "\e[41minvalid entry, please enter a correct name\e[0m"
 	
 	elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]; then
