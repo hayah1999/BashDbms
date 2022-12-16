@@ -21,25 +21,22 @@ case $REPLY in
 1)echo "Enter your database name"
        read answer
  
-if [[ $answer = "" ]]; then
+if [[ $answer = " " ]]; then
 		echo -e "\e[41minvalid entry, please enter a correct name\e[0m"
-		echo "press any key"
-		read
-	
-	elif [[ $answer =~ [/.:\|\-] ]]; then
-		echo -e "\e[41mYou can't enter these characters => . / : - | \e[0m"
+
+	elif  [[ ^$answer =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]; then
+		echo -e "\e[41mYou can't enter these characters \e[0m"
 		
 	elif [[ -e ./dbs/$answer ]]; then
 		echo  -e "\e[41mthis database name is already used\e[0m"
 	
-	elif [[ $answer =~ ^[a-zA-Z] ]]; then
+	elif  [[ $answer =~ ^[a-zA-Z] ]]; then
 		mkdir ./dbs/$answer
       echo -e "\e[42mdatabase created sucessfully \e[0m"
 	
 	
 	else
 		echo -e "\e[41mDatabase name can't start with numbers or special characters\e[0m"
-		
 	fi
 
 
@@ -101,10 +98,11 @@ if [[ $answer = "" ]]; then
 4) echo "Enter database name you want to delete"
        read name
 if [[ $name = "" ]]; then
-		echo -e "\e[41mInvalid entry, please enter a correct name\e[0m"
+		echo -e "\e[41minvalid entry, please enter a correct name\e[0m"
 	
-	elif [[ $name =~ [/.:\&\*\?\!\@\#\$\%\^\1\2\3\4\5\6\7\8\9\|\-] ]]; then
-		echo -e "\e[41mDatabase name can't start with numbers or special characters\e[0m"
+	elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]; then
+		echo -e "\e[41mDatabase name can't have numbers or special characters\e[0m"
+
 	
 	elif [[ -e ./dbs/$name ]]; then
                 rm -r ./dbs/$name
@@ -112,7 +110,7 @@ if [[ $name = "" ]]; then
 		
       
 	elif ! [[ -d ./dbs/$name ]]; then
-			echo -e "\e[41mThis database doesn't exist\e[0m"
+			echo -e "\e[41mthis database doesn't exist\e[0m"
 	
 	fi
 
