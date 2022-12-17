@@ -149,7 +149,7 @@ do
             read -e -p "Please choose int or string : " choice
             echo           
        done
-        echo $name:$choice >> .$filename"meta"
+        echo $name:$choice: >> .$filename"meta"
         echo           
         echo -e "\e[42mColumn added sucessfully \e[0m"
         echo           
@@ -167,7 +167,7 @@ do
             read -e -p "Please choose int or string : " choice
             echo           
         done
-        echo $name:$choice >> .$filename"meta"
+        echo $name:$choice: >> .$filename"meta"
         echo           
         echo -e "\e[42mColumn added sucessfully \e[0m"
         echo           
