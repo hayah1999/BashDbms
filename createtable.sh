@@ -8,7 +8,7 @@
                        echo           
                        echo  -e "\e[41mYou must enter a name \e[0m"
                        echo           
-                       read -e -p "Enter the name of the file > " filename
+                       read -e -p "Enter the name of the table > " filename
                        echo           
                      done
                      while [ -f $filename ]
@@ -40,7 +40,14 @@
                      
                      echo "Please enter the number of columns : " 
                      read cols 
-
+                     while [ -z "$cols" ]
+                     do
+                       echo           
+                       echo  -e "\e[41mYou must enter a number \e[0m"
+                       echo           
+                       read -e -p "Enter the number of columns > " cols
+                       echo           
+                     done
                      while ! [[ $cols =~ ^[0-9]+$ ]]
                      do 
                         echo           
@@ -86,6 +93,14 @@
 while [ $counter -le $cols ]
 do
   read -e -p "Enter the name of the column : " name
+    while [ -z "$name" ]
+    do
+           echo           
+           echo  -e "\e[41mYou must enter a name\e[0m"
+           echo           
+           read -e -p "Enter the name of column > " name
+           echo           
+    done
     while  cut -d: -f1 .$filename"meta" | grep -w "$name" > /dev/null
     do 
         echo           

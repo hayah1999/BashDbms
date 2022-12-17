@@ -20,7 +20,14 @@ do
 case $REPLY in
 1)echo "Enter your database name"
        read answer
- 
+ while [ -z "$answer" ]
+      do
+           echo           
+           echo  -e "\e[41mYou must enter a name\e[0m"
+           echo           
+           read -e -p "Enter the name of the database you want to create > " answer
+           echo           
+      done
 if [[ $answer = *" "* ]]; then
 		echo -e "\e[41mThe name can't contain spaces\e[0m"
 
@@ -49,6 +56,14 @@ if [[ $answer = *" "* ]]; then
                       cd ..
 			;;
 3) read -e -p "Enter the database you want to connect with > " dbname
+      while [ -z "$dbname" ]
+      do
+           echo           
+           echo  -e "\e[41mYou must enter a name\e[0m"
+           echo           
+           read -e -p "Enter the name of the database you want to connect to > " dbname
+           echo           
+      done
 
       if [ ! -d ./dbs/$dbname ]
       then
@@ -62,6 +77,14 @@ if [[ $answer = *" "* ]]; then
 ;;
 4) echo "Enter database name you want to delete"
        read name
+      while [ -z "$name" ]
+      do
+           echo           
+           echo  -e "\e[41mYou must enter a name\e[0m"
+           echo           
+           read -e -p "Enter the name of the database you want to delete > " name
+           echo           
+      done
 if [[ $name = *" "* ]]; then
 		echo -e "\e[41minvalid entry, please enter a correct name\e[0m"
 	
