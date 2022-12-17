@@ -71,7 +71,7 @@ if [[ $name = *" "* ]]; then
 	
 	elif [[ -e ./dbs/$name ]]; then
                 rm -r ./dbs/$name
-		echo -e "\e[42mYour database is deleted  sucessfully \e[0m"
+		echo -e "\e[44mYour database is deleted  sucessfully \e[0m"
 		
       
 	elif ! [[ -d ./dbs/$name ]]; then
