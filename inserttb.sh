@@ -25,25 +25,13 @@ colnames=(`awk -F: '{ print $1 }' .$filename"meta"`)
 coltypes=(`awk -F: '{ print $2 }' .$filename"meta"`)
 ispk=`awk -F: 'BEGIN {col}{ if ( $3 == "primarykey") col=$1} END {print col }' .$filename"meta"`
 numberOfCols=`awk -F: 'END {print NR}' .$filename"meta"`
-echo $numberOfCols
-echo
-echo the column that is primary  key is : $ispk
-echo
-# Now access elements of an array (change "1" to whatever you want)
-#echo ${myarr[1]}
-
-# Or loop through every element in the array
-for i in "${colnames[@]}"
-do
-  echo $i
-done
 
 echo
+echo -e "\e[45mThe column that is primary key is : $ispk \e[0m"
 echo
-for i in "${coltypes[@]}"
-do
-  echo $i
-done
+
+
+
 
 record=()
 

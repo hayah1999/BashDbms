@@ -87,6 +87,7 @@
     typeset -i signedpkey
     counter=1
     assignedpkey=0
+    record=()
 
 
 
@@ -125,9 +126,9 @@ do
         read -e -p "Enter the name of the column : " name
         echo           
 	done
-  
   if [ $assignedpkey -ne 1 ]
   then
+
      echo           
      echo would you like it to be primary key : 
      echo "  y) Yes"
@@ -143,18 +144,9 @@ do
       echo           
      done 
 
-     if [ $pk = "y" ]
-     then 
-       assignedpkey=1
-       echo "Column type is int"
-       echo           
-       echo $name:int:primarykey >> .$filename"meta"
-       echo -e "\e[42mColumn added sucessfully \e[0m"
-       echo           
-       else
         echo choose :
-        echo "   int"
-        echo "   string"
+        echo "  int"
+        echo "  string"
         read choice 
         while [[ $choice != *(int)*(string) || -z "$choice" ]] 
         do
@@ -164,10 +156,21 @@ do
             read -e -p "Please choose int or string : " choice
             echo           
        done
+     if [ $pk = "y" ]
+     then 
+       assignedpkey=1  
+        echo $name:$choice:primarykey >> .$filename"meta"
+        echo           
+        echo -e "\e[42mColumn added sucessfully \e[0m"
+        echo  
+     fi
+     if [ $pk = "n" ]
+     then 
+       assignedpkey=0  
         echo $name:$choice: >> .$filename"meta"
         echo           
         echo -e "\e[42mColumn added sucessfully \e[0m"
-        echo           
+        echo  
      fi
      else
         echo choose :
@@ -188,4 +191,15 @@ do
         echo           
   fi
   counter=$counter+1
+  record+=("$name")
 done
+
+ 
+
+delim=""
+joined=""
+for item in "${record[@]}"; do
+  joined="$joined$delim$item"
+  delim=":"
+done
+echo "$joined" >> $filename
