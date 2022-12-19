@@ -18,6 +18,15 @@ do
                  
 			;;
 		3)  read -e -p "Enter the neame of the table you want to delete > " fname
+		          while [ -z "$fname" ]
+				  do 
+				    echo           
+                    echo  -e "\e[41mYou must enter a table to delete \e[0m"
+                    echo           
+                    read -e -p "Enter a table name : "  fname
+                    echo 
+				  done
+					
                     if [ -f $fname ]
                     then
                           rm $fname
@@ -28,6 +37,9 @@ do
                     fi
 			;;
 		4) echo insert
+
+		        ./../../inserttb.sh
+
 			;;
 		5) echo select
 			;;
