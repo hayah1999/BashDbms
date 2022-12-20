@@ -87,7 +87,6 @@
     typeset -i signedpkey
     counter=1
     assignedpkey=0
-    record=()
 
 
 
@@ -191,15 +190,4 @@ do
         echo           
   fi
   counter=$counter+1
-  record+=("$name")
 done
-
- 
-
-delim=""
-joined=""
-for item in "${record[@]}"; do
-  joined="$joined$delim$item"
-  delim=":"
-done
-echo "$joined" >> $filename

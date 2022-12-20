@@ -1,14 +1,6 @@
 #!/bin/bash
-echo "Enter database folder"
-       read dbs
 
-while [ $dbs != "dbs" ]
-do
-   echo "please enter database folder as dbs"
-   read dbs
-done
-
-if [ ! -d $dbs ]
+if [ ! -d dbs ]
 then
   mkdir $dbs
   echo -e "\e[42mThe folder for databases is created successfully\e[0m"

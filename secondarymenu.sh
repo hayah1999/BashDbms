@@ -1,5 +1,5 @@
 #!/bin/bash
-
+PS3=''$1' db >> Enter your choice : '
  cd ./dbs/$1
   pwd
 COLUMNS=0
