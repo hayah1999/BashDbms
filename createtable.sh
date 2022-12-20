@@ -41,48 +41,39 @@
                      
                      echo "Please enter the number of columns : " 
                      read cols 
-                     while [ -z "$cols" ]
+                     while [ -z "$cols" ] || ! [[ $cols =~ ^[0-9]+$ ]] || [ $cols -lt 1 ]
                      do
-                       echo           
-                       echo  -e "\e[41mYou must enter a number \e[0m"
-                       echo           
-                       read -e -p "Enter the number of columns > " cols
-                       echo           
-                     done
-                     while ! [[ $cols =~ ^[0-9]+$ ]]
-                     do 
-                        echo           
-                        echo -e "\e[41mThis is not a number  \e[0m"
-                        echo           
-                        read -e -p "Enter the column number : "  cols
-                        echo           
-                     done
-                    
-                     while [ $cols -lt 1 ]
-                     do
-                          echo           
-                          echo -e "\e[41mTable must have at least one column \e[0m"
-                          echo           
-                          read -e -p "Enter the number of column 1 or greater than 1 : " cols
-                          echo           
-                          while ! [[ $cols =~ ^[0-9]+$ ]]
-                          do
-                               echo           
-                               echo -e "\e[41mThis is not a number  \e[0m"
-                               echo           
-                               read -e -p "Enter the column number : "  cols
-                               echo           
-                          done
-                     done
-
-                     if [ $cols -gt 0 ]
-                     then
-                        touch $filename
-                        touch .$filename"meta"
-                        
-                        echo -e "\e[42mTable is created sucessfully \e[0m"
-                        echo       
-                     fi
+                         if [ -z "$cols" ]
+                         then
+                           echo           
+                           echo  -e "\e[41mYou must enter a number \e[0m"
+                           echo           
+                           read -e -p "Enter the number of columns > " cols
+                           echo                         
+                         elif ! [[ $cols =~ ^[0-9]+$ ]]
+                         then
+                           echo           
+                           echo -e "\e[41mThis is not a number  \e[0m"
+                           echo           
+                           read -e -p "Enter the column number : "  cols
+                           echo 
+                         else
+                           echo           
+                           echo -e "\e[41mTable must have at least one column \e[0m"
+                           echo           
+                           read -e -p "Enter the number of column 1 or greater than 1 : " cols
+                           echo 
+                         fi
+                      done
+                      
+         if [ $cols -gt 0 ]
+         then
+             touch $filename
+             touch .$filename"meta"
+             echo -e "\e[42mTable is created sucessfully \e[0m"
+             echo       
+         fi
+                   
                       
     typeset -i counter
     typeset -i signedpkey
@@ -94,38 +85,40 @@
 while [ $counter -le $cols ]
 do
   read -e -p "Enter the name of the column : " name
-    while [ -z "$name" ]
+    while [[ $name = *" "* ]] || [ -z "$name" ] || cut -d: -f1 .$filename"meta" | grep -w "$name" > /dev/null || [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]]
     do
+       if [ -z "$name" ] 
+       then
            echo           
            echo  -e "\e[41mYou must enter a name\e[0m"
            echo           
            read -e -p "Enter the name of column > " name
+           echo
+       elif [[ $name = *" "* ]] 
+       then
            echo           
+	         echo -e "\e[41mThe name can't contain spaces\e[0m"
+           echo           
+           read -e -p "Enter the name of the column : " name
+           echo
+       elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]] 
+       then
+           echo           
+	         echo -e "\e[41mYou can't enter these characters \e[0m"
+           echo           
+           read -e -p "Enter the name of the column : " name
+           echo  
+       else
+           echo           
+           echo -e "\e[41mThe column already exist. Choose another name! \e[0m"
+           echo        
+           read -e -p "Enter the name of the column : " name
+           echo  
+       fi
+            
     done
-    while  cut -d: -f1 .$filename"meta" | grep -w "$name" > /dev/null
-    do 
-        echo           
-        echo -e "\e[41mThe column already exist. Choose another name! \e[0m"
-        echo        
-        read -e -p "Enter the name of the column : " name
-        echo          
-    done
-    while [[ $name = *" "* ]]
-    do
-        echo           
-	    echo -e "\e[41mThe name can't contain spaces\e[0m"
-        echo           
-        read -e -p "Enter the name of the column : " name
-        echo           
-    done
-	while [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]
-    do
-        echo           
-	    echo -e "\e[41mYou can't enter these characters \e[0m"
-        echo           
-        read -e -p "Enter the name of the column : " name
-        echo           
-	done
+
+
   if [ $assignedpkey -ne 1 ]
   then
 
@@ -192,3 +185,5 @@ do
   fi
   counter=$counter+1
 done
+
+
