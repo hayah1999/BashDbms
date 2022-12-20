@@ -42,8 +42,10 @@ do
 
 			;;
 		5) echo select
-			;;
+                       ./../../select.sh
+ 			;;
 		6) echo delete
+                        ./../../delete.sh
 			;;
 		7) echo update
 		        ./../../updatetb.sh
