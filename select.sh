@@ -124,12 +124,13 @@ while [ -z "$val" ]
           echo  -e "\e[41mYou must enter a value\e[0m"
 read -e -p "Enter condition value: > " val
   done
-if ! grep -q -w "$val" $filename
-then
+while !  cut -d: -f$colnu $filename| grep -q -w "$val"  > /dev/null
+do
 echo -e "\e[41mYour value is not in the file\e[0m"
 read -e -p "Enter condition value: > " val
-
-  else  awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}
+done
+if   cut -d: -f$colnu $filename| grep -q -w "$val"  
+then  awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}
 			
 				{if(NR==loc) print
 				}}' $filename

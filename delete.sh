@@ -79,14 +79,14 @@ while [ -z "$vldel" ]
           echo  -e "\e[41mYou must enter a value\e[0m"
 read -e -p "Enter condition value: > " vldel
   done
-if ! grep -q -w "$vldel" $filename
-then
+while !  cut -d: -f$coldel $filename| grep -q -w "$vldel"  > /dev/null
+do
 echo -e "\e[41mYour value is not in the file\e[0m"
 read -e -p "Enter condition value: > " vldel
+done
 
-
-   else
-
+if   cut -d: -f$coldel $filename| grep -q -w "$vldel"
+then
 	 awk 'BEGIN {OFS=FS=":"} {if($'$coldel'=="'$vldel'") {
 				loc=NR
 			}

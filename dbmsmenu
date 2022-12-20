@@ -20,16 +20,23 @@ case $REPLY in
            read -e -p "Enter the name of the database you want to create > " answer
            echo           
       done
-if [[ $answer = *" "* ]]; then
+while [[ $answer = *" "* ]]; do
 		echo -e "\e[41mThe name can't contain spaces\e[0m"
+read -e -p "Enter the name of the database you want to create > " answer
+           echo           
+      done
 
-	elif  [[ ^$answer =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]; then
+	while  [[ ^$answer =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]; do
 		echo -e "\e[41mYou can't enter these characters \e[0m"
-		
-	elif [[ -e ./dbs/$answer ]]; then
+		read -e -p "Enter the name of the database you want to create > " answer
+           echo           
+      done
+	while  [[ -e ./dbs/$answer ]]; do
 		echo  -e "\e[41mThis database name is already used\e[0m"
-	
-	elif  [[ $answer =~ ^[a-zA-Z] ]]; then
+	read -e -p "Enter the name of the database you want to create > " answer
+           echo           
+      done
+	   if  [[ $answer =~ ^[a-zA-Z] ]]; then
 		mkdir ./dbs/$answer
       echo -e "\e[42mDatabase created sucessfully \e[0m"
 	
@@ -57,17 +64,20 @@ if [[ $answer = *" "* ]]; then
            echo           
       done
 
-      if [ ! -d ./dbs/$dbname ]
-      then
+     while [ ! -d ./dbs/$dbname ]
+    do
           echo -e "\e[41mThis database doesn't exist\e[0m"
-      fi
+      read -e -p "Enter the name of the database you want to connect to > " dbname
+           echo           
+      done
+
      if [ -d ./dbs/$dbname ]
      then
           gnome-terminal -- bash -c "./secondarymenu.sh $dbname; bash" > /dev/null
 
 	fi
 ;;
-4) echo "Enter database name you want to delete"
+4)  echo "Enter database name you want to delete"
        read name
       while [ -z "$name" ]
       do
@@ -77,25 +87,27 @@ if [[ $answer = *" "* ]]; then
            read -e -p "Enter the name of the database you want to delete > " name
            echo           
       done
-if [[ $name = *" "* ]]; then
-		echo -e "\e[41minvalid entry, please enter a correct name\e[0m"
+while [[ $name = *" "* ]]; do
+		echo -e "\e[41mThe name can't contain spaces\e[0m"
+read -e -p "Enter the name of the database you want to create > " name
+           echo           
+      done
+	while [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\] ]]; do
+		echo -e "\e[41mYou can't enter these characters \e[0m"
+		read -e -p "Enter the name of the database you want to create > " name
+           echo           
+      done
+while ! [[ -d ./dbs/$name ]]; do
+			echo -e "\e[41mthis database doesn't exist\e[0m"
 	
-	elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]; then
-		echo -e "\e[41mDatabase name can't have numbers or special characters\e[0m"
-
-	
-	elif [[ -e ./dbs/$name ]]; then
+	read -e -p "Enter the name of the database you want to create > " name
+           echo  
+done
+    if [[ -e ./dbs/$name ]]; then
                 rm -r ./dbs/$name
 		echo -e "\e[44mYour database is deleted  sucessfully \e[0m"
 		
-      
-	elif ! [[ -d ./dbs/$name ]]; then
-			echo -e "\e[41mthis database doesn't exist\e[0m"
-	
-	fi
-
-
-
+      fi
    
 ;;
 5) exit
