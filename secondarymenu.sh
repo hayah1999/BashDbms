@@ -1,4 +1,20 @@
 #!/bin/bash
+
+echo
+echo
+border()
+{
+    COLUMNS=$(tput cols) 
+    title="| $1 |"
+    edge=$(echo "$title" | sed 's/./-/g')
+    printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$edge"
+    printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$title"
+    printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$edge"
+}
+border "Welcome to database $1!"
+echo
+echo
+
 entry=`echo -e "\e[36m$1\e[0m"`
 PS3=''$entry' db >> Enter your choice : '
  cd ./dbs/$1

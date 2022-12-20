@@ -1,5 +1,22 @@
 #!/bin/bash
 
+
+
+echo
+echo
+border()
+{
+    COLUMNS=$(tput cols) 
+    title="| $1 |"
+    edge=$(echo "$title" | sed 's/./-/g')
+    printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$edge"
+    printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$title"
+    printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$edge"
+}
+border "Welcome to yole DBMS"
+echo
+echo
+
 if [ ! -d dbs ]
 then
   mkdir dbs
