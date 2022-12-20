@@ -25,7 +25,9 @@ done
 colnames=(`awk -F: '{ print $1 }' .$filename"meta"`)
 ispk=`awk -F: 'BEGIN {col}{ if ( $3 == "primarykey") col=$1} END {print col }' .$filename"meta"`
 coltypes=(`awk -F: '{ print $2 }' .$filename"meta"`)
-PS3=''$filename' table >> Enter your update choice : '
+
+entry=`echo -e "\e[36m$filename\e[0m"`
+PS3=''$entry' table >> Enter your update choice : '
 
 COLUMNS=0
 select choice in "Update a specific record" "Update records based on a pattern" "Exit"

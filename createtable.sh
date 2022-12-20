@@ -186,4 +186,7 @@ do
   counter=$counter+1
 done
 
-
+if [ $assignedpkey -eq 0 ]
+then
+       awk 'BEGIN {OFS=FS=":"} {if(NR == 1) $3="primarykey"; print $0 > "'.$filename"meta"'" }' .$filename"meta"
+fi

@@ -1,5 +1,6 @@
 #!/bin/bash
-PS3=''$1' db >> Enter your choice : '
+entry=`echo -e "\e[36m$1\e[0m"`
+PS3=''$entry' db >> Enter your choice : '
  cd ./dbs/$1
 
 COLUMNS=0
