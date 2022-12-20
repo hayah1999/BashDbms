@@ -1,42 +1,43 @@
 #!/bin/bash
 
     
-                      read -e -p "Enter the name of the table > " filename
-                    #./../../tcharcheck.sh  $filename
-                     while [ -z "$filename" ]
+                    read -e -p "Enter the name of the table > " filename
+                   
+                     while [[ $filename = *" "* ]] || [ -z "$filename" ] || [ -f $filename ]||  [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]] 
                      do
-                       echo           
-                       echo  -e "\e[41mYou must enter a name \e[0m"
-                       echo           
-                       read -e -p "Enter the name of the table > " filename
-                       echo           
-                     done
-                     while [ -f $filename ]
-                     do
-                       echo           
-                       echo  -e "\e[41mThis table name is already used. Try again! \e[0m"
-                       echo           
-                       read -e -p "Enter the name of the table > " filename
-                       echo           
-                     done
-
-                     while [[ $filename = *" "* ]]
-                     do
-                     		  echo           
-                              echo -e "\e[41mTable name can't have spaces. Try again! \e[0m"
-                              echo           
-                              read -e -p "Enter the name of the table > " filename
-                              echo           
-                     done
-                     
-                     while  [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]] 
-                     do
-                              echo           
+                      if [ -z "$filename" ] 
+                      then
+                          echo           
+                          echo  -e "\e[41mYou must enter a name \e[0m"
+                          echo           
+                          read -e -p "Enter the name of the table > " filename
+                          echo 
+                      elif [[ $filename = *" "* ]]
+                      then
+                          echo           
+                          echo -e "\e[41mTable name can't have spaces. Try again! \e[0m"
+                          echo           
+                          read -e -p "Enter the name of the table > " filename
+                          echo
+                      elif [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]] 
+                      then
+                          echo           
                      		  echo -e "\e[41mYou can't enter these characters. Try again! \e[0m"
-                     	      echo           
-                              read -e -p "Enter the name of the table > " filename	
-                              echo           
-                     done
+                     	    echo           
+                          read -e -p "Enter the name of the table > " filename	
+                          echo 
+                      else
+                          echo           
+                          echo  -e "\e[41mThis table name is already used. Try again! \e[0m"
+                          echo           
+                          read -e -p "Enter the name of the table > " filename
+                          echo 
+                      fi
+                      done
+         
+
+                     
+            
                      
                      echo "Please enter the number of columns : " 
                      read cols 
