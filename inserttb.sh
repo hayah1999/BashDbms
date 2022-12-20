@@ -154,3 +154,6 @@ for item in "${record[@]}"; do
   delim=":"
 done
 echo "$joined" >> $filename
+echo  
+echo -e "\e[42mRecord is inserted successfully\e[0m"
+echo 

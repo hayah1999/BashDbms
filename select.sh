@@ -33,14 +33,32 @@ echo "$counter)"   $l
 counter=$counter+1
 done
 
-
+entry=`echo -e "\e[36m$filename\e[0m"`
+PS3=''$entry' table >> Enter your choice : '
 
 echo 
 
 select choice in "Select all columns" "select specific columns" "select columns where condition" "exit"
 do
 case $REPLY in
-1)  awk -F: '{print}' $filename
+1)  #awk -F: '{print}' $filename
+ #cut -d: -f1 .$filename"meta" | awk '{if(NR == '$numberOfCols') {for (k=1; k <= NF; k++) printf "%-5s", $k; print " "}}'
+# awk 'BEGIN {FS=OFS=":"} {for (k=1; k <= NF; k++) printf "%-5s", $k; print " "}' $filename
+#cut -d: -f1 .$filename"meta" | awk '{for (k=1; k <= NR; k++) printf "%-5s", $k; print " "}'
+delim=""
+joined=""
+for item in "${colnames[@]}"; do
+  joined="$joined$delim$item"
+  delim="\t|\t"
+done
+
+
+echo "-------------------------------------------------------------------"
+echo -e "$joined"
+echo "-------------------------------------------------------------------"
+ list=`cat $filename  | column --table --separator ":" --output-separator "\t|\t"`
+ echo -e "$list"
+ echo
 ;;
 2) 
 read -p "Enter Number of columns: " number;

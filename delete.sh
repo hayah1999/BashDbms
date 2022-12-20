@@ -34,6 +34,9 @@ counter=$counter+1
 done
 
 
+entry=`echo -e "\e[36m$filename\e[0m"`
+PS3=''$entry' table >> Enter your choice : '
+
 
 echo 
 select choice in "Delete all columns" "Delete data by column"  "exit"
