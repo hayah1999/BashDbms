@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -e -p "which file you want to insert to : " filename
+read -e -p "which table you want to insert into : " filename
 while [ -z "$filename" ] ||  [ ! -f $filename ]
 do
     if [ -z "$filename" ]

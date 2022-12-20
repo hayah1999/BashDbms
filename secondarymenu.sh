@@ -46,6 +46,7 @@ do
 		6) echo delete
 			;;
 		7) echo update
+		        ./../../updatetb.sh
 			;;
 		8) exit
 			;;
