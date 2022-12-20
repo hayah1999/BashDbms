@@ -1,5 +1,5 @@
 #!/bin/bash
-read -e -p "which file you want to select from : " filename
+read -e -p "Which table you want to select from : " filename
 while [ -z "$filename" ] ||  [ ! -f $filename ]
 do
     if [ -z "$filename" ]

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -e -p "which table you want to insert into : " filename
+read -e -p "Which table you want to insert into : " filename
 while [ -z "$filename" ] ||  [ ! -f $filename ]
 do
     if [ -z "$filename" ]
@@ -10,9 +10,7 @@ do
           echo           
           read -e -p "Enter the name of the table > " filename
           echo  
-      fi
-      if [ ! -f $filename ]
-      then
+      else
           echo           
           echo  -e "\e[41mThis table name doesn't exist. Try again! \e[0m"
           echo           
@@ -37,135 +35,111 @@ record=()
 
 typeset -i i
 i=0
+
 while [ $((numberOfCols)) -ne 0 ]
 do
-    read -e -p "Enter the valuse of column ${colnames[i]} > " value
+    read -e -p "Enter the value of column ${colnames[i]} > " value
     
-    if [ ${coltypes[i]} = "int" ]
-    then
-       while [ -z "$value" ] || ! [[ $value =~ ^[0-9]+$ ]]
-       do
-           if [ -z "$value" ]
-           then
-               echo           
-               echo  -e "\e[41mYou must enter a value \e[0m"
-               echo           
-               read -e -p "Enter value of integer : "  value
-               echo   
-           fi
-           if ! [[ $value =~ ^[0-9]+$ ]]
-           then
-               echo           
-               echo -e "\e[41mThis is not an integer  \e[0m"
-               echo           
-               read -e -p "Enter value of integer : "  value
-               echo           
-           fi
-       done
-    fi
-    
-    if [ ${coltypes[i]} = "string" ]
-    then
-       while [ -z "$value"  ] || [[ $value =~ ^[0-9]+$ ]]
-       do
-           if [ -z "$value" ]
-           then
-               echo           
-               echo  -e "\e[41mYou must enter a value \e[0m"
-               echo           
-               read -e -p "Enter value of string : "  value
-               echo   
-           fi
-           if [[ $value =~ ^[0-9]+$ ]]
-           then
-               echo           
-               echo -e "\e[41mThis is not a string  \e[0m"
-               echo           
-               read -e -p "Enter value of string : "  value
-               echo           
-           fi
-       done
-    fi
 
-
-    if [ ${colnames[i]} = $ispk ]
-    then
-       
-       while grep -q -w "$value" $filename || [ -z "$value" ]
-       do
-         if [ -z "$value" ]
-         then
-               echo           
-               echo -e "\e[41mYou must enter a value \e[0m"
-               echo           
-               read -e -p "Enter value of string : "  value
-               echo  
-         fi
-
-
-         if grep -q -w "$value" $filename
-         then
-            echo
-            echo -e "\e[41mYou must enter a unique value as this is primary key! \e[0m"
-            echo
-            read -e -p "Enter value of ${coltypes[i]} : " value
-            echo
-         fi
-
-         if [ ${coltypes[i]} = "int" ]
-         then
-            while [ -z "$value" ] || ! [[ $value =~ ^[0-9]+$ ]]
-            do
-                if [ -z "$value" ]
-                then
+            if [ ${coltypes[i]} = "int" ]
+            then
+               if [ ${colnames[i]} = $ispk ]
+               then
+                  while [ -z "$value" ] || ! [[ $value =~ ^[0-9]+$ ]] || grep -q -w $value $filename 
+                  do
+                  if [ -z "$value" ]
+                  then
                     echo           
                     echo  -e "\e[41mYou must enter a value \e[0m"
                     echo           
-                    read -e -p "Enter value of integer : "  value
-                    echo   
-                fi
-                if ! [[ $value =~ ^[0-9]+$ ]]
-                then
+                    read -e -p "Enter the value of ${colnames[i]} > " value
+                    echo 
+                  elif ! [[ $value =~ ^[0-9]+$ ]]
+                  then
                     echo           
-                    echo -e "\e[41mThis is not an integer  \e[0m"
+                    echo  -e "\e[41mYou must enter a value of ${coltypes[i]} \e[0m"
                     echo           
-                    read -e -p "Enter value of integer : "  value
-                    echo           
-                fi
-            done
-         fi
-    
-         if [ ${coltypes[i]} = "string" ]
-            then
-               while [ -z "$value"  ] || [[ $value =~ ^[0-9]+$ ]]
-               do
-                   if [ -z "$value" ]
-                   then
+                    read -e -p "Enter value of int : " value
+                    echo 
+                  else
+                    echo  
+                    echo -e "\e[41mThis has to be unique value\e[0m"
+                    echo  
+                    read -e -p "Enter a unique value : " value
+                    echo
+                  fi
+                  done
+               else
+                  while ! [[ $value =~ ^[0-9]+$ ]] || [ -z "$value" ]
+                  do
+                     if [ -z "$value" ]
+                     then
                        echo           
-                       echo  -e "\e[41mYou must enter a value \e[0m"
+                       echo  -e "\e[41mYou must enter a value\e[0m"
                        echo           
-                       read -e -p "Enter value of string : "  value
-                       echo   
-                   fi
-                   if [[ $value =~ ^[0-9]+$ ]]
-                   then
+                       read -e -p "Enter the value of ${colnames[i]} > " value
+                       echo
+                     else
                        echo           
-                       echo -e "\e[41mThis is not a string  \e[0m"
+                       echo  -e "\e[41mYou must enter a value of ${coltypes[i]} \e[0m"
                        echo           
-                       read -e -p "Enter value of string : "  value
-                       echo           
-                   fi
-               done
+                       read -e -p "Enter value of int : " value
+                       echo 
+                     fi
+                  done
+               fi
             fi
-          
- 
-       done
 
 
+            if [ ${coltypes[i]} = "string" ]
+            then
+               if [ ${colnames[i]} = $ispk ]
+               then
+                  while [ -z "$value" ] || [[ $value =~ ^[0-9]+$ ]] || grep -q -w $value $filename 
+                  do
+                  if [ -z "$value" ]
+                  then
+                    echo           
+                    echo  -e "\e[41mYou must enter a value\e[0m"
+                    echo           
+                    read -e -p "Enter the value of ${colnames[i]} > " value
+                    echo 
+                  elif [[ $value =~ ^[0-9]+$ ]]
+                  then
+                    echo           
+                    echo  -e "\e[41mYou must enter a value of ${coltypes[i]}\e[0m"
+                    echo           
+                    read -e -p "Enter value of string : " value
+                    echo 
+                  else
+                    echo  
+                    echo -e "\e[41mThis has to be unique value\e[0m"
+                    echo  
+                    read -e -p "Enter a unique value : " value
+                    echo
+                  fi
+                  done
+               else
+                  while [[ $value =~ ^[0-9]+$ ]] || [ -z "$value" ]
+                  do
+                     if [ -z "$value" ]
+                     then
+                        echo           
+                        echo  -e "\e[41mYou must enter a value\e[0m"
+                        echo           
+                        read -e -p "Enter the value of ${colnames[i]} > " value
+                        echo 
+                     else
+                        echo           
+                        echo  -e "\e[41mYou must enter a value of ${coltypes[i]}\e[0m"
+                        echo           
+                        read -e -p "Enter value of string : " value
+                        echo  
+                     fi
+                  done
+               fi
+            fi
 
-
-
-    fi
 
 
     record+=("$value")

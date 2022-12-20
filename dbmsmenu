@@ -2,7 +2,7 @@
 
 if [ ! -d dbs ]
 then
-  mkdir $dbs
+  mkdir dbs
   echo -e "\e[42mThe folder for databases is created successfully\e[0m"
 fi
 

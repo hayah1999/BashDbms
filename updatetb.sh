@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -e -p "which table you want to update : " filename
+read -e -p "Which table you want to update : " filename
 while [ -z "$filename" ] ||  [ ! -f $filename ]
 do
     if [ -z "$filename" ]
@@ -31,7 +31,8 @@ COLUMNS=0
 select choice in "Update a specific record" "Update records based on a pattern" "Exit"
 do
 	case $REPLY in 
-    1) echo only a record:
+    1) echo only a record could be updated:
+       echo
        read -e -p "Which column you want to update: " colname
 
             while [ -z "$colname" ] ||  ! cut -d: -f1 .$filename"meta" | grep -q -w "$colname" 
@@ -66,11 +67,20 @@ do
         echo -e "\e[45mThe column that is primary key is : $ispk \e[0m"
         echo
 
+          indexofpk=-1
+            for j in "${!colnames[@]}";
+            do 
+              if [[ "${colnames[$j]}" = "$ispk" ]];
+              then
+              indexofpk=$j
+              break
+              fi
+            done
+            let indexofpk=$indexofpk+1
 
+        read -e -p "What is the value of column $ispk you want to change : " value
 
-        read -e -p "what is the value of column $ispk you want to change : " value
-
-         while [ -z "$value" ] ||  ! grep -q -w "$value" $filename
+         while [ -z "$value" ] ||  ! cut -d: -f$indexofpk $filename | grep -q -w "$value" 
             do
             if [ -z "$value" ] 
             then
@@ -91,7 +101,7 @@ do
 
             
 
-        read -e -p "what is the new value you want in column $colname  : " newvalue
+        read -e -p "What is the new value you want in column $colname  : " newvalue
            
 
             if [ ${coltypes[$index]} = "string" ]
@@ -193,16 +203,7 @@ do
                   done
                fi
             fi
-    indexofpk=-1
-            for j in "${!colnames[@]}";
-            do 
-              if [[ "${colnames[$j]}" = "$ispk" ]];
-              then
-              indexofpk=$j
-              break
-              fi
-            done
-            let indexofpk=$indexofpk+1
+
       
 
             indexofcol=-1
@@ -219,8 +220,14 @@ do
 
 
     awk 'BEGIN {OFS=FS=":"} {if($'$indexofpk'=='$value') $'$indexofcol'="'$newvalue'"; print $0 > "'$filename'" }' $filename 
+    
+     echo
+     echo -e "\e[42mRecord is updated sucessfully \e[0m"
+     echo
+
     ;;
-    2) echo update when finding certain pattern:
+    2) echo Update when finding certain pattern:
+       echo
 
         read -e -p "Which column you want to update: " colname
 
@@ -261,11 +268,22 @@ do
               done
 
 
+            indexofcol=-1
+            for j in "${!colnames[@]}";
+            do 
+              if [[ "${colnames[$j]}" = "$colname" ]];
+              then
+              indexofcol=$j
+              break
+              fi
+            done
+
+            let indexofcol=$indexofcol+1
 
 
-        read -e -p "what is the value of column $colname you want to change : " value
+        read -e -p "What is the value of column $colname you want to change : " value
 
-         while [ -z "$value" ] ||  ! grep -q -w "$value" $filename
+         while [ -z "$value" ] || ! cut -d: -f$indexofcol $filename | grep -q -w "$value" 
             do
             if [ -z "$value" ] 
             then
@@ -287,7 +305,7 @@ do
 
 
         
-        read -e -p "what is the new value you want in column $colname  : " newvalue
+        read -e -p "What is the new value you want in column $colname  : " newvalue
            
 
             if [ ${coltypes[$index]} = "string" ]
@@ -333,6 +351,10 @@ do
             fi
 
          sed -i 's/'$value'/'$newvalue'/g' $filename
+        
+         echo
+         echo -e "\e[42mRecords are updated sucessfully \e[0m"
+         echo
 
     ;;
     3) exit

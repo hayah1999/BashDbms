@@ -1,7 +1,7 @@
 #!/bin/bash
 PS3=''$1' db >> Enter your choice : '
  cd ./dbs/$1
-  pwd
+
 COLUMNS=0
 select choice in "Create Table" "List Tables" "Drop Table" "Insert into Table" "Select From Table" "Delete From Table" "Update Table" "Exit"
 do
