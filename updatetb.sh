@@ -68,7 +68,7 @@ do
 
 
 
-        read -e -p "what is the value of column $ispk you want : " value
+        read -e -p "what is the value of column $ispk you want to change : " value
 
          while [ -z "$value" ] ||  ! grep -q -w "$value" $filename
             do
@@ -220,7 +220,120 @@ do
 
     awk 'BEGIN {OFS=FS=":"} {if($'$indexofpk'=='$value') $'$indexofcol'="'$newvalue'"; print $0 > "'$filename'" }' $filename 
     ;;
-    2) echo update when finding certain pattern
+    2) echo update when finding certain pattern:
+
+        read -e -p "Which column you want to update: " colname
+
+            while [ -z "$colname" ] ||  ! cut -d: -f1 .$filename"meta" | grep -q -w "$colname" || [ $colname = $ispk ]
+            do
+            if [ -z "$colname" ] 
+            then
+                   echo           
+                   echo  -e "\e[41mYou must enter a name\e[0m"
+                   echo           
+                   read -e -p "Enter the name of column > " colname
+                   echo  
+            elif [ $colname = $ispk ]
+            then
+                   echo           
+                   echo  -e "\e[41mYou can't base the update on this column it's primary key. It's value is unique!\e[0m"
+                   echo           
+                   read -e -p "Enter the name of column > " colname
+                   echo  
+            else   
+                   echo           
+                   echo -e "\e[41mThe column doesn't exist. Choose another name! \e[0m"
+                   echo        
+                   read -e -p "Enter the name of the column : " colname
+                   echo          
+            fi
+            done
+
+
+            index=-1
+            for i in "${!colnames[@]}";
+            do 
+              if [[ "${colnames[$i]}" = "$colname" ]];
+              then
+              index=$i
+              break
+              fi
+              done
+
+
+
+
+        read -e -p "what is the value of column $colname you want to change : " value
+
+         while [ -z "$value" ] ||  ! grep -q -w "$value" $filename
+            do
+            if [ -z "$value" ] 
+            then
+                   echo           
+                   echo  -e "\e[41mYou must enter a value\e[0m"
+                   echo           
+                   read -e -p "Enter the value that exist > " value
+                   echo     
+            else   
+                   echo           
+                   echo -e "\e[41mThe value doesn't exist. Choose another value! \e[0m"
+                   echo        
+                   read -e -p "Enter the value that exist >  " value
+                   echo          
+            fi
+            done
+
+
+
+
+        
+        read -e -p "what is the new value you want in column $colname  : " newvalue
+           
+
+            if [ ${coltypes[$index]} = "string" ]
+            then
+                  while [[ $newvalue =~ ^[0-9]+$ ]] || [ -z "$newvalue" ]
+                  do
+                     if [ -z "$newvalue" ]
+                     then
+                       echo           
+                       echo  -e "\e[41mYou must enter a value\e[0m"
+                       echo           
+                       read -e -p "Enter the value of $colname > " newvalue
+                       echo 
+                     else
+                       echo           
+                       echo  -e "\e[41mYou must enter a value of ${coltypes[$index]}\e[0m"
+                       echo           
+                       read -e -p "Enter value of string : "  newvalue
+                       echo 
+                     fi
+                  done
+            fi
+
+            if [ ${coltypes[$index]} = "int" ]
+            then
+                  while ! [[ $newvalue =~ ^[0-9]+$ ]] || [ -z "$newvalue" ]
+                  do
+                     if [ -z "$newvalue" ]
+                     then
+                       echo           
+                       echo  -e "\e[41mYou must enter a value\e[0m"
+                       echo           
+                       read -e -p "Enter the value of $colname > " newvalue
+                       echo  
+                     else
+                       echo           
+                       echo  -e "\e[41mYou must enter a value of ${coltypes[$index]}\e[0m"
+                       echo           
+                       read -e -p "Enter value of int : "  newvalue
+                       echo   
+                     fi
+                  done
+            fi
+
+         sed -i 's/'$value'/'$newvalue'/g' $filename
+
     ;;
     3) exit
     ;;
