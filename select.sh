@@ -229,7 +229,18 @@ do
   read -e -p "Enter condition value : " val
   echo
 done
+delim=""
+joined=""
+for item in "${colnames[@]}"; do
+  joined="$joined$delim$item"
+  delim="\t|\t"
+done
 
+echo
+echo
+echo "-------------------------------------------------------------------"
+echo -e "$joined"
+echo 
 echo "-------------------------------------------------------------------"
 if   cut -d: -f$colnu $filename| grep -q -w "$val"  
 then  awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}
