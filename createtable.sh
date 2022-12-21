@@ -143,7 +143,7 @@ done
      echo would you like it to be primary key : 
      echo "  y) Yes"
      echo "  n) No"
-     read pk
+     read -e -p "Please choose y or n : " pk
 
      while [[ $pk != *(y)*(n) || -z "$pk" ]] 
      do
@@ -157,7 +157,7 @@ done
         echo choose :
         echo "  int"
         echo "  string"
-        read choice 
+        read -e -p "Please choose int or string : " choice 
         while [[ $choice != *(int)*(string) || -z "$choice" ]] 
         do
             echo           
@@ -186,7 +186,7 @@ done
         echo choose :
         echo "   int"
         echo "   string"
-        read choice 
+        read -e -p "Please choose int or string : " choice 
         while [[ $choice != *(int)*(string) || -z "$choice" ]] 
         do
             echo           

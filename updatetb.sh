@@ -365,7 +365,7 @@ do
                   done
             fi
 
-         sed -i 's/'$value'/'$newvalue'/g' $filename
+         sed -i 's/'$value'/'"$newvalue"'/g' $filename
         
          echo
          echo -e "\e[42mRecords are updated sucessfully \e[0m"
