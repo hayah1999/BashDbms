@@ -227,7 +227,7 @@ do
             let indexofcol=$indexofcol+1
 
 
-    awk 'BEGIN {OFS=FS=":"} {if($'$indexofpk'=='$value') $'$indexofcol'="'$newvalue'"; print $0 > "'$filename'" }' $filename 
+    awk 'BEGIN {OFS=FS=":"} {if($'$indexofpk'=='$value') $'$indexofcol'="'"$newvalue"'"; print $0 > "'$filename'" }' $filename 
     
      echo
      echo -e "\e[42mRecord is updated sucessfully \e[0m"
