@@ -130,16 +130,14 @@ var="${colnames[$'$dec']}"
  
 col=(`awk -F: '{ print $'$colNum' }' $filename`)
 echo
-echo
 echo "---------"
 echo -e "$joined"
 echo "---------"
 for l in "${col[@]}"
 do 
 echo -e "$l\t|\t"
-
 done
-
+echo 
 
 else 
 echo
@@ -147,19 +145,7 @@ echo -e "\e[41m Invalid entery! \e[0m"
 echo
 fi
 done
-
-
-
-
-
-
-
-
-
-
 ;;
-
-
 3)
 echo			
 read -p "Enter column number of the condition : " colnu
@@ -236,7 +222,6 @@ for item in "${colnames[@]}"; do
   delim="\t|\t"
 done
 
-echo
 echo
 echo "-------------------------------------------------------------------"
 echo -e "$joined"
