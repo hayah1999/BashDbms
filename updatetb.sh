@@ -1,6 +1,7 @@
 #!/bin/bash
-
+echo
 read -e -p "Which table you want to update : " filename
+echo
 while [ -z "$filename" ] ||  [ ! -f $filename ]
 do
     if [ -z "$filename" ]
@@ -8,7 +9,7 @@ do
           echo           
           echo  -e "\e[41mYou must enter a name \e[0m"
           echo           
-          read -e -p "Enter the name of the table > " filename
+          read -e -p "Enter the name of the table : " filename
           echo  
       fi
       if [ ! -f $filename ]
@@ -16,7 +17,7 @@ do
           echo           
           echo  -e "\e[41mThis table name doesn't exist. Try again! \e[0m"
           echo           
-          read -e -p "Enter the name of the table > " filename
+          read -e -p "Enter the name of the table : " filename
           echo 
       fi
 done
@@ -33,9 +34,11 @@ COLUMNS=0
 select choice in "Update a specific record" "Update records based on a pattern" "Exit"
 do
 	case $REPLY in 
-    1) echo only a record could be updated:
+    1) echo
+       echo only a record could be updated :
        echo
-       read -e -p "Which column you want to update: " colname
+       read -e -p "Which column you want to update : " colname
+       echo
 
             while [ -z "$colname" ] ||  ! cut -d: -f1 .$filename"meta" | grep -q -w "$colname" 
             do
@@ -79,8 +82,9 @@ do
               fi
             done
             let indexofpk=$indexofpk+1
-
+        echo
         read -e -p "What is the value of column $ispk you want to change : " value
+        echo
 
          while [ -z "$value" ] ||  ! cut -d: -f$indexofpk $filename | grep -q -w "$value" 
             do
@@ -89,13 +93,13 @@ do
                    echo           
                    echo  -e "\e[41mYou must enter a value\e[0m"
                    echo           
-                   read -e -p "Enter the value that exist > " value
+                   read -e -p "Enter the value that exist : " value
                    echo     
             else   
                    echo           
                    echo -e "\e[41mThe value doesn't exist. Choose another value! \e[0m"
                    echo        
-                   read -e -p "Enter the value that exist >  " value
+                   read -e -p "Enter the value that exist :  " value
                    echo          
             fi
             done
@@ -103,7 +107,9 @@ do
 
             
 
+        echo
         read -e -p "What is the new value you want in column $colname  : " newvalue
+        echo
            
 
             if [ ${coltypes[$index]} = "string" ]
@@ -124,7 +130,7 @@ do
                     echo           
                     echo  -e "\e[41mYou must enter a value\e[0m"
                     echo           
-                    read -e -p "Enter the value of $colname > " newvalue
+                    read -e -p "Enter the value of $colname : " newvalue
                     echo  
                   else
                     echo  
@@ -148,7 +154,7 @@ do
                        echo           
                        echo  -e "\e[41mYou must enter a value\e[0m"
                        echo           
-                       read -e -p "Enter the value of $colname > " newvalue
+                       read -e -p "Enter the value of $colname : " newvalue
                        echo  
                      fi
                   done
@@ -228,10 +234,13 @@ do
      echo
 
     ;;
-    2) echo Update when finding certain pattern:
+    2) echo
+       echo Update when finding certain pattern :
        echo
 
-        read -e -p "Which column you want to update: " colname
+        echo
+        read -e -p "Which column you want to update : " colname
+        echo
 
             while [ -z "$colname" ] ||  ! cut -d: -f1 .$filename"meta" | grep -q -w "$colname" || [ $colname = $ispk ]
             do
@@ -283,7 +292,9 @@ do
             let indexofcol=$indexofcol+1
 
 
+        echo
         read -e -p "What is the value of column $colname you want to change : " value
+        echo
 
          while [ -z "$value" ] || ! cut -d: -f$indexofcol $filename | grep -q -w "$value" 
             do
@@ -292,13 +303,13 @@ do
                    echo           
                    echo  -e "\e[41mYou must enter a value\e[0m"
                    echo           
-                   read -e -p "Enter the value that exist > " value
+                   read -e -p "Enter the value that exist : " value
                    echo     
             else   
                    echo           
                    echo -e "\e[41mThe value doesn't exist. Choose another value! \e[0m"
                    echo        
-                   read -e -p "Enter the value that exist >  " value
+                   read -e -p "Enter the value that exist :  " value
                    echo          
             fi
             done
@@ -307,7 +318,9 @@ do
 
 
         
+        echo
         read -e -p "What is the new value you want in column $colname  : " newvalue
+        echo
            
 
             if [ ${coltypes[$index]} = "string" ]
@@ -319,7 +332,7 @@ do
                        echo           
                        echo  -e "\e[41mYou must enter a value\e[0m"
                        echo           
-                       read -e -p "Enter the value of $colname > " newvalue
+                       read -e -p "Enter the value of $colname : " newvalue
                        echo 
                      else
                        echo           
@@ -340,7 +353,7 @@ do
                        echo           
                        echo  -e "\e[41mYou must enter a value\e[0m"
                        echo           
-                       read -e -p "Enter the value of $colname > " newvalue
+                       read -e -p "Enter the value of $colname : " newvalue
                        echo  
                      else
                        echo           
@@ -361,7 +374,9 @@ do
     ;;
     3) exit
     ;;
-    *) echo  -e "\e[41mInvalid choice \e[0m"
+    *) echo
+       echo  -e "\e[41mInvalid choice \e[0m"
+       echo
     ;;
 esac
 done

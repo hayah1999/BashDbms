@@ -1,6 +1,7 @@
 #!/bin/bash
-
+echo
 read -e -p "Which table you want to insert into : " filename
+echo
 while [ -z "$filename" ] ||  [ ! -f $filename ]
 do
     if [ -z "$filename" ]
@@ -8,13 +9,13 @@ do
           echo           
           echo  -e "\e[41mYou must enter a name \e[0m"
           echo           
-          read -e -p "Enter the name of the table > " filename
+          read -e -p "Enter the name of the table : " filename
           echo  
       else
           echo           
           echo  -e "\e[41mThis table name doesn't exist. Try again! \e[0m"
           echo           
-          read -e -p "Enter the name of the table > " filename
+          read -e -p "Enter the name of the table : " filename
           echo 
       fi
 done
@@ -37,8 +38,9 @@ typeset -i i
 i=0
 
 while [ $((numberOfCols)) -ne 0 ]
-do
-    read -e -p "Enter the value of column ${colnames[i]} > " value
+do  echo
+    read -e -p "Enter the value of column ${colnames[i]} : " value
+    echo
     
 
             if [ ${coltypes[i]} = "int" ]
@@ -52,7 +54,7 @@ do
                     echo           
                     echo  -e "\e[41mYou must enter a value \e[0m"
                     echo           
-                    read -e -p "Enter the value of ${colnames[i]} > " value
+                    read -e -p "Enter the value of ${colnames[i]} : " value
                     echo 
                   elif ! [[ $value =~ ^[0-9]+$ ]]
                   then
@@ -77,7 +79,7 @@ do
                        echo           
                        echo  -e "\e[41mYou must enter a value\e[0m"
                        echo           
-                       read -e -p "Enter the value of ${colnames[i]} > " value
+                       read -e -p "Enter the value of ${colnames[i]} : " value
                        echo
                      else
                        echo           
@@ -102,7 +104,7 @@ do
                     echo           
                     echo  -e "\e[41mYou must enter a value\e[0m"
                     echo           
-                    read -e -p "Enter the value of ${colnames[i]} > " value
+                    read -e -p "Enter the value of ${colnames[i]} : " value
                     echo 
                   elif [[ $value =~ ^[0-9]+$ ]]
                   then
@@ -127,7 +129,7 @@ do
                         echo           
                         echo  -e "\e[41mYou must enter a value\e[0m"
                         echo           
-                        read -e -p "Enter the value of ${colnames[i]} > " value
+                        read -e -p "Enter the value of ${colnames[i]} : " value
                         echo 
                      else
                         echo           

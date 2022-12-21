@@ -7,7 +7,7 @@ do
           echo           
           echo  -e "\e[41mYou must enter a name \e[0m"
           echo           
-          read -e -p "Enter the name of the table > " filename
+          read -e -p "Enter the name of the table : " filename
           echo  
       fi
       if [ ! -f $filename ]
@@ -15,7 +15,7 @@ do
           echo           
           echo  -e "\e[41mThis table name doesn't exist. Try again! \e[0m"
           echo           
-          read -e -p "Enter the name of the table > " filename
+          read -e -p "Enter the name of the table : " filename
           echo 
       fi
 done
@@ -52,59 +52,68 @@ for item in "${colnames[@]}"; do
   delim="\t|\t"
 done
 
-
+echo
+echo
 echo "-------------------------------------------------------------------"
 echo -e "$joined"
 echo "-------------------------------------------------------------------"
- list=`cat $filename  | column --table --separator ":" --output-separator "\t|\t"`
- echo -e "$list"
- echo
+list=`cat $filename  | column --table --separator ":" --output-separator "\t|\t"`
+echo -e "$list"
+echo
+echo
 ;;
 2) 
+echo
 read -p "Enter Number of columns: " number;
+echo
     while [ -z "$number" ] || ! [[ $number =~ ^[0-9]+$ ]] 
 do
   if [ -z "$number " ]
   then
       echo  -e "\e[41mYou must enter a number\e[0m"
-      read -e -p "Enter column number of the condition:  > " number 
+      read -e -p "Enter column number of the condition : " number 
   elif [ ^$number = -* ]
   then
       echo
       echo -e "\e[41minvalid entery\e[0m"
       echo
-      read -e -p "Enter column number of the condition:  > " number 
+      read -e -p "Enter column number of the condition : " number 
       echo
   else
       echo
       echo -e "\e[41minvalid entery\e[0m"
       echo
-      read -e -p "Enter column number of the condition:  > " number 
+      read -e -p "Enter column number of the condition : " number 
       echo
   fi
 done
        for (( i = 1; i <= number; i++ )); 
           do
-            echo "Enter column number: "
+             echo
+             echo "Enter column number : "
              read colNum
+             echo
 while [ -z "$colNum" ] || ! [[ $colNum =~ ^[0-9]+$ ]] || [ $colNum -gt $numberOfCols -o $colNum -le 0 ]
 do
   if [ -z "$colNum" ]
   then
+      echo
       echo  -e "\e[41mYou must enter a number\e[0m"
-      read -e -p "Enter column number of the condition:  > " colNum
+      echo
+      read -e -p "Enter column number of the condition : " colNum
+      echo
   elif [ ^$colNum = -* ]
   then
       echo
       echo -e "\e[41minvalid entery\e[0m"
       echo
-      read -e -p "Enter column number of the condition:  > " colNum
+      read -e -p "Enter column number of the condition : " colNum
       echo
   else
       echo
       echo -e "\e[41minvalid entery\e[0m"
       echo
-      read -e -p "Enter column number of the condition:  > " colNum
+      read -e -p "Enter column number of the condition : " colNum
       echo
   fi
 done
@@ -123,7 +132,9 @@ done
 
 
 else 
+echo
 echo -e "\e[41m Invalid entery! \e[0m"
+echo
 fi
 done
 
@@ -131,33 +142,38 @@ done
 
 
 3)
-			
-read -p "Enter column number of the condition: " colnu
+echo			
+read -p "Enter column number of the condition : " colnu
+echo
 
 while [ -z "$colnu" ] || ! [[ $colnu =~ ^[0-9]+$ ]] || [ $colnu -gt $numberOfCols -o $colnu -le 0 ]
 do
   if [ -z "$colnu" ]
   then
+      echo
       echo  -e "\e[41mYou must enter a number\e[0m"
-      read -e -p "Enter column number of the condition:  > " colnu
+      echo
+      read -e -p "Enter column number of the condition : " colnu
+      echo
   elif [ ^$colnu = -* ]
   then
       echo
       echo -e "\e[41minvalid entery\e[0m"
       echo
-      read -e -p "Enter column number of the condition:  > " colnu  
+      read -e -p "Enter column number of the condition : " colnu  
       echo
   else
       echo
       echo -e "\e[41minvalid entery\e[0m"
       echo
-      read -e -p "Enter column number of the condition:  > " colnu
+      read -e -p "Enter column number of the condition : " colnu
       echo
   fi
 done
 
-
+echo
 read -p "Enter condition value: " val;  
+echo
 dec2=$colnu-1
 
 
@@ -166,7 +182,7 @@ do
   echo
   echo -e "\e[41mYour entry expected to be integer\e[0m"
   echo
-  read -e -p "Enter condition value: > " val
+  read -e -p "Enter condition value : " val
   echo
 done
 
@@ -175,7 +191,7 @@ do
   echo
   echo -e "\e[41mYour entry expected to be string\e[0m"
   echo
-  read -e -p "Enter condition value: > " val
+  read -e -p "Enter condition value : " val
   echo
 done 
 while [ -z "$val" ]
@@ -183,7 +199,7 @@ while [ -z "$val" ]
           echo
           echo  -e "\e[41mYou must enter a value\e[0m"
           echo
-          read -e -p "Enter condition value: > " val
+          read -e -p "Enter condition value : " val
           echo
   done
 while !  cut -d: -f$colnu $filename| grep -q -w "$val"  > /dev/null
@@ -191,7 +207,7 @@ do
   echo
   echo -e "\e[41mYour value is not in the file\e[0m"
   echo
-  read -e -p "Enter condition value: > " val
+  read -e -p "Enter condition value : " val
   echo
 done
 if   cut -d: -f$colnu $filename| grep -q -w "$val"  

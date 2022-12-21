@@ -1,5 +1,7 @@
 #!/bin/bash
 
+entry=`echo -e "\e[36mYOLE\e[0m"`
+PS3=''$entry' >> Enter your update choice : '
 
 
 echo
@@ -13,7 +15,7 @@ border()
     printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$title"
     printf "%*s\n" $(((${#title}+$COLUMNS)/2)) "$edge"
 }
-border "Welcome to yole DBMS"
+border "Welcome to YOLE DBMS"
 echo
 echo
 
@@ -22,12 +24,14 @@ then
   mkdir dbs
   echo -e "\e[42mThe folder for databases is created successfully\e[0m"
 fi
-
+echo 
+echo
 COLUMNS=0
 select choice in "Create Database" "List Database" "Connect To Database" "Drop Database" "Exit"
 do
 case $REPLY in
-1)echo "Enter your database name"
+1) echo
+   echo "Enter your database name : "
        read answer
  while [ -z "$answer" ]
       do
@@ -38,40 +42,53 @@ case $REPLY in
            echo           
       done
 while [[ $answer = *" "* ]]; do
+          echo
 		echo -e "\e[41mThe name can't contain spaces\e[0m"
-read -e -p "Enter the name of the database you want to create > " answer
-           echo           
+          echo
+          read -e -p "Enter the name of the database you want to create > " answer
+          echo           
       done
 
 	while  [[ ^$answer =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]; do
-		echo -e "\e[41mYou can't enter these characters \e[0m"
-		read -e -p "Enter the name of the database you want to create > " answer
-           echo           
+		echo
+          echo -e "\e[41mYou can't enter these characters \e[0m"
+		echo
+          read -e -p "Enter the name of the database you want to create > " answer
+          echo           
       done
 	while  [[ -e ./dbs/$answer ]]; do
-		echo  -e "\e[41mThis database name is already used\e[0m"
-	read -e -p "Enter the name of the database you want to create > " answer
-           echo           
+		echo
+          echo  -e "\e[41mThis database name is already used\e[0m"
+	     echo
+          read -e -p "Enter the name of the database you want to create > " answer
+          echo           
       done
 	   if  [[ $answer =~ ^[a-zA-Z] ]]; then
 		mkdir ./dbs/$answer
-      echo -e "\e[42mDatabase created sucessfully \e[0m"
+         echo
+         echo -e "\e[42mDatabase created sucessfully \e[0m"
+         echo
 	
 	
 	else
+          echo
 		echo -e "\e[41mDatabase name can't start with numbers or special characters\e[0m"
+          echo
 	fi
 
 
 
 ;;
-2)  echo The databases are:
+2) echo  
+   echo The databases are :
                    cd ./dbs
                      ./../borderlist.sh
                   
                       cd ..
 			;;
-3) read -e -p "Enter the database you want to connect with > " dbname
+3) echo
+   read -e -p "Enter the database you want to connect with : " dbname
+   echo
       while [ -z "$dbname" ]
       do
            echo           
@@ -83,7 +100,9 @@ read -e -p "Enter the name of the database you want to create > " answer
 
      while [ ! -d ./dbs/$dbname ]
     do
+          echo
           echo -e "\e[41mThis database doesn't exist\e[0m"
+          echo
           read -e -p "Enter the name of the database you want to connect to > " dbname
           echo           
       done
@@ -94,8 +113,9 @@ read -e -p "Enter the name of the database you want to create > " answer
 
 	fi
 ;;
-4)  echo "Enter database name you want to delete"
-       read name
+4)    echo
+      echo "Enter database name you want to delete : "
+      read name
       while [ -z "$name" ]
       do
            echo           
@@ -105,24 +125,31 @@ read -e -p "Enter the name of the database you want to create > " answer
            echo           
       done
 while [[ $name = *" "* ]]; do
-		echo -e "\e[41mThe name can't contain spaces\e[0m"
-read -e -p "Enter the name of the database you want to create > " name
-           echo           
+		echo
+          echo -e "\e[41mThe name can't contain spaces\e[0m"
+          echo
+          read -e -p "Enter the name of the database you want to create > " name
+          echo           
       done
 	while [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\] ]]; do
-		echo -e "\e[41mYou can't enter these characters \e[0m"
-		read -e -p "Enter the name of the database you want to create > " name
-           echo           
+		echo
+          echo -e "\e[41mYou can't enter these characters \e[0m"
+		echo
+          read -e -p "Enter the name of the database you want to create > " name
+          echo           
       done
 while ! [[ -d ./dbs/$name ]]; do
-			echo -e "\e[41mthis database doesn't exist\e[0m"
-	
-	read -e -p "Enter the name of the database you want to create > " name
-           echo  
+			echo
+               echo -e "\e[41mthis database doesn't exist\e[0m"
+               echo	
+	          read -e -p "Enter the name of the database you want to create > " name
+               echo  
 done
     if [[ -e ./dbs/$name ]]; then
                 rm -r ./dbs/$name
+          echo
 		echo -e "\e[44mYour database is deleted  sucessfully \e[0m"
+          echo
 		
       fi
    

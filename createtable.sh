@@ -1,7 +1,8 @@
 #!/bin/bash
 
-    
-read -e -p "Enter the name of the table > " filename
+echo 
+read -e -p "Enter the name of the table : " filename
+echo
 
 while [ -z "$filename" ] || [[ $filename = *" "* ]] || ! [[ $filename =~ ^[a-zA-Z] ]] || [ -f $filename ] || [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]
 do
@@ -10,41 +11,42 @@ then
    echo           
    echo  -e "\e[41mYou must enter a name \e[0m"
    echo           
-   read -e -p "Enter the name of the table > " filename
+   read -e -p "Enter the name of the table : " filename
    echo   
 elif [[ $filename = *" "* ]]
 then
     echo
 		echo -e "\e[41mThe name can't contain spaces\e[0m"
     echo
-    read -e -p "Enter the name of the table you want to create > " filename
+    read -e -p "Enter the name of the table you want to create : " filename
     echo 
 elif [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]
 then
     echo
 		echo -e "\e[41mYou can't enter these characters \e[0m"
     echo
-		read -e -p "Enter the name of the table you want to create > " filename
+		read -e -p "Enter the name of the table you want to create : " filename
     echo
 elif ! [[ $filename =~ ^[a-zA-Z] ]]
 then
     echo
 		echo -e "\e[41mYou can't enter these characters \e[0m"
     echo
-		read -e -p "Enter the name of the table you want to create > " filename
+		read -e -p "Enter the name of the table you want to create : " filename
     echo
 else
     echo           
     echo  -e "\e[41mThis table name is already used. Try again! \e[0m"
     echo           
-    read -e -p "Enter the name of the table > " filename
+    read -e -p "Enter the name of the table : " filename
     echo 
 fi        
 done
      
-                     
+                     echo
                      echo "Please enter the number of columns : " 
                      read cols 
+                     echo
                      while [ -z "$cols" ] || ! [[ $cols =~ ^[0-9]+$ ]] || [ $cols -lt 1 ]
                      do
                          if [ -z "$cols" ]
@@ -52,7 +54,7 @@ done
                            echo           
                            echo  -e "\e[41mYou must enter a number \e[0m"
                            echo           
-                           read -e -p "Enter the number of columns > " cols
+                           read -e -p "Enter the number of columns : " cols
                            echo                         
                          elif ! [[ $cols =~ ^[0-9]+$ ]]
                          then
@@ -74,6 +76,7 @@ done
          then
              touch $filename
              touch .$filename"meta"
+             echo
              echo -e "\e[42mTable is created sucessfully \e[0m"
              echo       
          fi
@@ -88,7 +91,9 @@ done
 
 while [ $counter -le $cols ]
 do
+  echo
   read -e -p "Enter the name of the column : " name
+  echo
 
 while [ -z "$name" ] || [[ $name = *" "* ]] || ! [[ $name =~ ^[a-zA-Z] ]] || [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]] ||  cut -d: -f1 .$filename"meta" | grep -q -w "$name" > /dev/null
 do
