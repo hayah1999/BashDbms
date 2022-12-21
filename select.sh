@@ -122,12 +122,22 @@ done
             if [ $colNum -le $numberOfCols -a $colNum -gt 0 ] 
             then
 dec=$colNum-1
-echo "${colnames[$'$dec']}"
+delim=""
+joined=""
+tt=""
+var="${colnames[$'$dec']}"
+ joined="$joined$var\t|\t"
+ 
 col=(`awk -F: '{ print $'$colNum' }' $filename`)
-
+echo
+echo
+echo "---------"
+echo -e "$joined"
+echo "---------"
 for l in "${col[@]}"
 do 
-echo  $l
+echo -e "$l\t|\t"
+
 done
 
 
@@ -137,6 +147,15 @@ echo -e "\e[41m Invalid entery! \e[0m"
 echo
 fi
 done
+
+
+
+
+
+
+
+
+
 
 ;;
 
@@ -210,19 +229,22 @@ do
   read -e -p "Enter condition value : " val
   echo
 done
+
+echo "-------------------------------------------------------------------"
 if   cut -d: -f$colnu $filename| grep -q -w "$val"  
 then  awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}
 			
 				{if(NR==loc) print
-				}}' $filename
+				}}' $filename  | column --table --separator ":" --output-separator "    |    "
 fi
-
+echo "-------------------------------------------------------------------"
           
 ;;
 
 4)
 exit
 ;;
+
 
 esac
 done
