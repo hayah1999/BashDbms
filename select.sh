@@ -243,10 +243,9 @@ echo -e "$joined"
 echo 
 echo "-------------------------------------------------------------------"
 if   cut -d: -f$colnu $filename| grep -q -w "$val"  
-then  awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}
-			
-				{if(NR==loc) print
-				}}' $filename  | column --table --separator ":" --output-separator "    |    "
+then 
+list=`awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}{if(NR==loc) print}}' $filename  | column --table --separator ":" --output-separator "\t|\t"`
+echo -e "$list"
 fi
 echo "-------------------------------------------------------------------"
           
