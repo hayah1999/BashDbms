@@ -154,6 +154,9 @@ fi
 ;;
 3) exit
 ;;
-
+*) echo
+       echo  -e "\e[41mInvalid choice \e[0m"
+       echo
+    ;;
 esac
 done
