@@ -62,30 +62,55 @@ echo "-------------------------------------------------------------------"
 ;;
 2) 
 read -p "Enter Number of columns: " number;
-    while [ -z "$number" ]
-   do
-          echo           
-          echo  -e "\e[41mYou must enter a number\e[0m"
-          echo           
-          read -e -p "Enter Number of columns: " number
-          done  
+    while [ -z "$number" ] || ! [[ $number =~ ^[0-9]+$ ]] 
+do
+  if [ -z "$number " ]
+  then
+      echo  -e "\e[41mYou must enter a number\e[0m"
+      read -e -p "Enter column number of the condition:  > " number 
+  elif [ ^$number = -* ]
+  then
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " number 
+      echo
+  else
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " number 
+      echo
+  fi
+done
        for (( i = 1; i <= number; i++ )); 
           do
             echo "Enter column number: "
              read colNum
-while [ -z "$colNum" ]
- do  
-          echo  -e "\e[41mYou must enter a number\e[0m"
-          read -e -p "Enter column number: " colNum
-       done  
-           if  [[ $colNum =~ ^[a-zA-Z] ]]; then
-echo -e "\e[41mYour entry expected to be integer\e[0m"
+while [ -z "$colNum" ] || ! [[ $colNum =~ ^[0-9]+$ ]] || [ $colNum -gt $numberOfCols -o $colNum -le 0 ]
+do
+  if [ -z "$colNum" ]
+  then
+      echo  -e "\e[41mYou must enter a number\e[0m"
+      read -e -p "Enter column number of the condition:  > " colNum
+  elif [ ^$colNum = -* ]
+  then
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " colNum
+      echo
+  else
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " colNum
+      echo
+  fi
+done
 
-            elif  [[ ^$colNum  =~ [:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]]; then
-echo -e "\e[41mYour entry expected to be integer \e[0m"
 
-
-            elif [ $colNum -le $numberOfCols -a $colNum -gt 0 ] 
+            if [ $colNum -le $numberOfCols -a $colNum -gt 0 ] 
             then
 dec=$colNum-1
 echo "${colnames[$'$dec']}"
@@ -107,19 +132,29 @@ done
 
 3)
 			
-read -p "Enter column number of the condition: " colnu;
-while [ -z "$colnu" ]
-       do
-          echo  -e "\e[41mYou must enter a number\e[0m"
-read -e -p "Enter column number of the condition:  > " colnu
-done
-while [[ $colnu =~ ^[a-zA-Z] ]] || [[ ^$colnu  =~ [:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]] || [ $colnu -gt $numberOfCols -o $colnu -le 0 ]; 
+read -p "Enter column number of the condition: " colnu
+
+while [ -z "$colnu" ] || ! [[ $colnu =~ ^[0-9]+$ ]] || [ $colnu -gt $numberOfCols -o $colnu -le 0 ]
 do
-echo -e "\e[41minvalid entery\e[0m"
-read -e -p "Enter column number of the condition:  > " colnu
-
+  if [ -z "$colnu" ]
+  then
+      echo  -e "\e[41mYou must enter a number\e[0m"
+      read -e -p "Enter column number of the condition:  > " colnu
+  elif [ ^$colnu = -* ]
+  then
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " colnu  
+      echo
+  else
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " colnu
+      echo
+  fi
 done
-
 
 
 read -p "Enter condition value: " val;  
@@ -128,24 +163,36 @@ dec2=$colnu-1
 
 while [ "${coltypes[$'$dec2']}" = int ] && [[ $val =~ ^[a-zA-Z] ]] ; 
 do
-echo -e "\e[41mYour entry expected to be integer\e[0m"
-read -e -p "Enter condition value: > " val
+  echo
+  echo -e "\e[41mYour entry expected to be integer\e[0m"
+  echo
+  read -e -p "Enter condition value: > " val
+  echo
 done
 
 while [ "${coltypes[$'$dec2']}" = string ] && [[ $val =~ ^[1-9] ]]; 
 do
-echo -e "\e[41mYour entry expected to be string\e[0m"
-read -e -p "Enter condition value: > " val
+  echo
+  echo -e "\e[41mYour entry expected to be string\e[0m"
+  echo
+  read -e -p "Enter condition value: > " val
+  echo
 done 
 while [ -z "$val" ]
         do  
+          echo
           echo  -e "\e[41mYou must enter a value\e[0m"
-read -e -p "Enter condition value: > " val
+          echo
+          read -e -p "Enter condition value: > " val
+          echo
   done
 while !  cut -d: -f$colnu $filename| grep -q -w "$val"  > /dev/null
 do
-echo -e "\e[41mYour value is not in the file\e[0m"
-read -e -p "Enter condition value: > " val
+  echo
+  echo -e "\e[41mYour value is not in the file\e[0m"
+  echo
+  read -e -p "Enter condition value: > " val
+  echo
 done
 if   cut -d: -f$colnu $filename| grep -q -w "$val"  
 then  awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}

@@ -85,7 +85,7 @@
 while [ $counter -le $cols ]
 do
   read -e -p "Enter the name of the column : " name
-    while [[ $name = *" "* ]] || [ -z "$name" ] || cut -d: -f1 .$filename"meta" | grep -w "$name" > /dev/null || [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]]
+    while ! [ $name = [a-zA-Z] ] || [[ $name = *" "* ]] || [ -z "$name" ] || cut -d: -f1 .$filename"meta" | grep -w "$name" > /dev/null 
     do
        if [ -z "$name" ] 
        then
@@ -101,6 +101,13 @@ do
            echo           
            read -e -p "Enter the name of the column : " name
            echo
+       elif ! [ $name = [a-zA-Z] ]
+       then
+           echo           
+	         echo -e "\e[41mThe name can't contain this charachter\e[0m"
+           echo           
+           read -e -p "Enter the name of the column : " name
+           echo       
        elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]] 
        then
            echo           
