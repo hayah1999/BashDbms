@@ -84,8 +84,8 @@ read -e -p "Enter the name of the database you want to create > " answer
      while [ ! -d ./dbs/$dbname ]
     do
           echo -e "\e[41mThis database doesn't exist\e[0m"
-      read -e -p "Enter the name of the database you want to connect to > " dbname
-           echo           
+          read -e -p "Enter the name of the database you want to connect to > " dbname
+          echo           
       done
 
      if [ -d ./dbs/$dbname ]

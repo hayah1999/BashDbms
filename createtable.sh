@@ -1,43 +1,47 @@
 #!/bin/bash
 
     
-                    read -e -p "Enter the name of the table > " filename
-                   
-                     while [[ $filename = *" "* ]] || [ -z "$filename" ] || [ -f $filename ]||  [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]] 
-                     do
-                      if [ -z "$filename" ] 
-                      then
-                          echo           
-                          echo  -e "\e[41mYou must enter a name \e[0m"
-                          echo           
-                          read -e -p "Enter the name of the table > " filename
-                          echo 
-                      elif [[ $filename = *" "* ]]
-                      then
-                          echo           
-                          echo -e "\e[41mTable name can't have spaces. Try again! \e[0m"
-                          echo           
-                          read -e -p "Enter the name of the table > " filename
-                          echo
-                      elif [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]] 
-                      then
-                          echo           
-                     		  echo -e "\e[41mYou can't enter these characters. Try again! \e[0m"
-                     	    echo           
-                          read -e -p "Enter the name of the table > " filename	
-                          echo 
-                      else
-                          echo           
-                          echo  -e "\e[41mThis table name is already used. Try again! \e[0m"
-                          echo           
-                          read -e -p "Enter the name of the table > " filename
-                          echo 
-                      fi
-                      done
-         
+read -e -p "Enter the name of the table > " filename
 
-                     
-            
+while [ -z "$filename" ] || [[ $filename = *" "* ]] || ! [[ $filename =~ ^[a-zA-Z] ]] || [ -f $filename ] || [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]
+do
+if [ -z "$filename" ]
+then
+   echo           
+   echo  -e "\e[41mYou must enter a name \e[0m"
+   echo           
+   read -e -p "Enter the name of the table > " filename
+   echo   
+elif [[ $filename = *" "* ]]
+then
+    echo
+		echo -e "\e[41mThe name can't contain spaces\e[0m"
+    echo
+    read -e -p "Enter the name of the table you want to create > " filename
+    echo 
+elif [[ ^$filename =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]
+then
+    echo
+		echo -e "\e[41mYou can't enter these characters \e[0m"
+    echo
+		read -e -p "Enter the name of the table you want to create > " filename
+    echo
+elif ! [[ $filename =~ ^[a-zA-Z] ]]
+then
+    echo
+		echo -e "\e[41mYou can't enter these characters \e[0m"
+    echo
+		read -e -p "Enter the name of the table you want to create > " filename
+    echo
+else
+    echo           
+    echo  -e "\e[41mThis table name is already used. Try again! \e[0m"
+    echo           
+    read -e -p "Enter the name of the table > " filename
+    echo 
+fi        
+done
+     
                      
                      echo "Please enter the number of columns : " 
                      read cols 
@@ -85,38 +89,46 @@
 while [ $counter -le $cols ]
 do
   read -e -p "Enter the name of the column : " name
-    while [[ $name = *" "* ]] || [ -z "$name" ] || cut -d: -f1 .$filename"meta" | grep -w "$name" > /dev/null || [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]]
-    do
-       if [ -z "$name" ] 
-       then
-           echo           
-           echo  -e "\e[41mYou must enter a name\e[0m"
-           echo           
-           read -e -p "Enter the name of column > " name
-           echo
-       elif [[ $name = *" "* ]] 
-       then
-           echo           
-	         echo -e "\e[41mThe name can't contain spaces\e[0m"
-           echo           
-           read -e -p "Enter the name of the column : " name
-           echo
-       elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+_.-=?.\>\<,\;:\ ] ]] 
-       then
-           echo           
-	         echo -e "\e[41mYou can't enter these characters \e[0m"
-           echo           
-           read -e -p "Enter the name of the column : " name
-           echo  
-       else
-           echo           
-           echo -e "\e[41mThe column already exist. Choose another name! \e[0m"
-           echo        
-           read -e -p "Enter the name of the column : " name
-           echo  
-       fi
-            
-    done
+
+while [ -z "$name" ] || [[ $name = *" "* ]] || ! [[ $name =~ ^[a-zA-Z] ]] || [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]] ||  cut -d: -f1 .$filename"meta" | grep -q -w "$name" > /dev/null
+do
+if [ -z "$name" ]
+then
+    echo           
+    echo  -e "\e[41mYou must enter a name\e[0m"
+    echo           
+    read -e -p "Enter the name of column > " name
+    echo   
+elif [[ $name = *" "* ]]
+then
+    echo
+		echo -e "\e[41mThe name can't contain spaces\e[0m"
+    echo
+    read -e -p "Enter the name of the table you want to create > " name
+    echo 
+elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]
+then
+    echo           
+	  echo -e "\e[41mThe name can't contain spaces\e[0m"
+    echo           
+    read -e -p "Enter the name of the column : " name
+    echo 
+elif ! [[ $name =~ ^[a-zA-Z] ]]
+then
+    echo
+		echo -e "\e[41mYou can't enter these characters \e[0m"
+    echo
+		read -e -p "Enter the name of the column you want to create > " name
+    echo
+else
+    echo           
+    echo -e "\e[41mThe column already exist. Choose another name! \e[0m"
+    echo        
+    read -e -p "Enter the name of the column : " name
+    echo  
+fi        
+done
+
 
 
   if [ $assignedpkey -ne 1 ]

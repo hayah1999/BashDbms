@@ -47,17 +47,27 @@ case $REPLY in
 ;;
 2)
 
-read -p "Enter column number of the condition: " coldel;
-while [ -z "$coldel" ]
-       do
-          echo  -e "\e[41mYou must enter a number\e[0m"
-read -e -p "Enter column number of the condition:  > " coldel
-done
-while [[ $coldel =~ ^[a-zA-Z] ]] || [[ ^$coldel  =~ [:!\|@\{#$%\&*\`~+=?.\>\<,\;:\ ] ]] || [ $coldel -gt $numberOfCols -o $coldel -le 0 ]; 
+read -p "Enter column number of the condition: " coldel
+while [ -z "$coldel" ] || ! [[ $coldel =~ ^[0-9]+$ ]] || [ $coldel -gt $numberOfCols -o $coldel -le 0 ]
 do
-echo -e "\e[41minvalid entery\e[0m"
-read -e -p "Enter column number of the condition:  > " coldel
-
+  if [ -z "$coldel" ]
+  then
+      echo  -e "\e[41mYou must enter a number\e[0m"
+      read -e -p "Enter column number of the condition:  > " coldel
+  elif [ ^$coldel = -* ]
+  then
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " coldel 
+      echo
+  else
+      echo
+      echo -e "\e[41minvalid entery\e[0m"
+      echo
+      read -e -p "Enter column number of the condition:  > " coldel
+      echo
+  fi
 done
 
 
@@ -98,8 +108,22 @@ then
 		}
 	}' $filename > tmp && mv tmp $filename;
 echo -e "\e[42mThe record is deleted successfully\e[0m"
+#awk -F: '{print}' $filename
+delim=""
+joined=""
+for item in "${colnames[@]}"; do
+  joined="$joined$delim$item"
+  delim="\t|\t"
+done
 
- awk -F: '{print}' $filename
+
+echo "-------------------------------------------------------------------"
+echo -e "$joined"
+echo "-------------------------------------------------------------------"
+ list=`cat $filename  | column --table --separator ":" --output-separator "\t|\t"`
+ echo -e "$list"
+ echo
+;;
 fi
 ;;
 3) exit
