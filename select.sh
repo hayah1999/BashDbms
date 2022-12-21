@@ -247,6 +247,7 @@ list=`awk 'BEGIN {OFS=FS=":"} {if($'$colnu'=="'$val'") {loc=NR}{if(NR==loc) prin
 echo -e "$list"
 fi
 echo
+echo
           
 ;;
 
