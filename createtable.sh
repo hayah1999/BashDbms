@@ -102,14 +102,14 @@ then
     echo           
     echo  -e "\e[41mYou must enter a name\e[0m"
     echo           
-    read -e -p "Enter the name of column > " name
+    read -e -p "Enter the name of column : " name
     echo   
 elif [[ $name = *" "* ]]
 then
     echo
 		echo -e "\e[41mThe name can't contain spaces\e[0m"
     echo
-    read -e -p "Enter the name of the column you want to create > " name
+    read -e -p "Enter the name of the column you want to create : " name
     echo 
 elif [[ ^$name =~ [1-9:!\|@\{#$%\&*\`~+=?.\>\<,\;:\_\-\ ] ]]
 then
